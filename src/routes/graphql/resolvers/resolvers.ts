@@ -45,3 +45,19 @@ export async function getProfiles(prisma: PrismaClient) {
 
   return profiles;
 }
+
+export async function getUser(id: string, prisma: PrismaClient) {
+  const user = await prisma.user.findUnique({ where: { id } });
+
+  if (user === null) {
+    throw httpErrors.notFound();
+  }
+
+  return user;
+}
+
+export async function getUsers(prisma: PrismaClient) {
+  const users = await prisma.user.findMany();
+
+  return users;
+}

@@ -1,10 +1,11 @@
 import { GraphQLList, GraphQLNonNull, GraphQLObjectType } from "graphql";
 import { MemberTypeEnum, MemberTypeId, MemberType } from "../types/member-type.js";
 import { PrismaClient } from "@prisma/client";
-import { getMember, getMembers, getPost, getPosts, getProfile, getProfiles } from "../resolvers/resolvers.js";
+import { getMember, getMembers, getPost, getPosts, getProfile, getProfiles, getUser, getUsers } from "../resolvers/resolvers.js";
 import { Post } from "../types/post.js";
 import { UUIDType } from "../types/uuid.js";
 import { Profile } from "../types/profile.js";
+import { User } from "../types/user.js";
 
 export const query = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -46,6 +47,19 @@ export const query = new GraphQLObjectType({
     profiles: {
       type: new GraphQLList(Profile),
       resolve: async (source, args, { prisma }: { prisma: PrismaClient }) => getProfiles(prisma),
+    },
+
+    user: {
+      type: User,
+      args: {
+        id: { type: new GraphQLNonNull(UUIDType) },
+      },
+      resolve: async(source, { id }: { id: string }, { prisma }: { prisma: PrismaClient }) => getUser(id, prisma),
+    },
+
+    users: {
+      type: new GraphQLList(User),
+      resolve: async (source, args, { prisma }: { prisma: PrismaClient }) => getUsers(prisma),
     },
   }
 });
