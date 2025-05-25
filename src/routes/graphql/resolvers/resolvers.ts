@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { MemberTypeEnum } from "../types/member-type.js";
+import { ICreatePostInput } from "../types/post.js";
 
 export async function getMember(id: MemberTypeEnum, prisma: PrismaClient) {
   const memberType = await prisma.memberType.findUnique({ where: {id} });
@@ -16,10 +17,6 @@ export async function getMembers(prisma: PrismaClient) {
 export async function getPost(id: string, prisma: PrismaClient) {
   const post = await prisma.post.findUnique({ where: { id } });
 
-  // if (post === null) {
-  //   throw httpErrors.notFound();
-  // }
-
   return post;
 }
 
@@ -27,6 +24,12 @@ export async function getPosts(prisma: PrismaClient) {
   const posts = await prisma.post.findMany();
 
   return posts;
+}
+
+export async function createPost(createPostInfo: ICreatePostInput, prisma: PrismaClient) {
+  const post = await prisma.post.create({ data: createPostInfo });
+
+  return post;
 }
 
 export async function getPostsByAuthorId(id: string, prisma: PrismaClient) {
@@ -37,10 +40,6 @@ export async function getPostsByAuthorId(id: string, prisma: PrismaClient) {
 
 export async function getProfile(id: string, prisma: PrismaClient) {
   const profile = await prisma.profile.findUnique({ where: { id },});
-
-  // if (profile === null) {
-  //   throw httpErrors.notFound();
-  // }
 
   return profile;
 }
@@ -59,10 +58,6 @@ export async function getProfiles(prisma: PrismaClient) {
 
 export async function getUser(id: string, prisma: PrismaClient) {
   const user = await prisma.user.findUnique({ where: { id } });
-
-  // if (user === null) {
-  //   throw httpErrors.notFound();
-  // }
 
   return user;
 }

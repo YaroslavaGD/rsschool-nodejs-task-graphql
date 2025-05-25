@@ -1,13 +1,15 @@
-import { GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLNonNull, GraphQLObjectType } from "graphql";
+import { CreatePostInput, ICreatePostInput, Post } from "../types/post.js";
+import { PrismaClient } from "@prisma/client";
+import { createPost } from "../resolvers/resolvers.js";
 
 export const mutation = new GraphQLObjectType({
-  name: 'RootMutationType',
+  name: 'Mutations',
   fields: {
-    testString: {
-      type: GraphQLString,
-      resolve: async () => {
-        return 'Hello mutation';
-      }
+    createPost: {
+      type: Post,
+      args: { dto: { type: new GraphQLNonNull(CreatePostInput) } },
+      resolve: async (source, { dto } : { dto: ICreatePostInput}, { prisma } : { prisma: PrismaClient }) => createPost(dto, prisma)
     }
   }
 });
