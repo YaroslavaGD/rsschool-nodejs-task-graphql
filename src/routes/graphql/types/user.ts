@@ -3,7 +3,9 @@ import { UUIDType } from "./uuid.js";
 import { Profile } from "./profile.js";
 import { PrismaClient } from "@prisma/client";
 import { Post } from "./post.js";
-import { getPostsByAuthorId, getProfileByUserId, getSubscribedToUser, getUserSubscribedTo } from "../resolvers/resolvers.js";
+import { getSubscribedToUser, getUserSubscribedTo } from "../resolvers/user-resolvers.js";
+import { getPostsByAuthorId } from "../resolvers/post-resolvers.js";
+import { getProfileByUserId } from "../resolvers/profile-resolvers.js";
 
 export const User: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',

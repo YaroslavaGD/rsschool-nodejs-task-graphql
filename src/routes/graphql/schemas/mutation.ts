@@ -1,7 +1,7 @@
 import { GraphQLNonNull, GraphQLObjectType } from "graphql";
 import { CreatePostInput, ICreatePostInput, Post } from "../types/post.js";
 import { PrismaClient } from "@prisma/client";
-import { createPost } from "../resolvers/resolvers.js";
+import { createPost } from "../resolvers/post-resolvers.js";
 
 export const mutation = new GraphQLObjectType({
   name: 'Mutations',

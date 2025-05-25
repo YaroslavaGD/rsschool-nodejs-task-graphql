@@ -2,7 +2,7 @@ import { GraphQLBoolean, GraphQLInt, GraphQLNonNull, GraphQLObjectType } from "g
 import { UUIDType } from "./uuid.js";
 import { MemberType, MemberTypeEnum, MemberTypeId } from "./member-type.js";
 import { PrismaClient } from "@prisma/client";
-import { getMember } from "../resolvers/resolvers.js";
+import { getMember } from "../resolvers/member-resolvers.js";
 
 export const Profile = new GraphQLObjectType({
   name: 'Profile',
