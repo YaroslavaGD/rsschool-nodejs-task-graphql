@@ -3,7 +3,7 @@ import { UUIDType } from "./uuid.js";
 import { Profile } from "./profile.js";
 import { PrismaClient } from "@prisma/client";
 import { Post } from "./post.js";
-import { getPostsByAuthorId, getProfileByUserId, getUserSubscribedTo } from "../resolvers/resolvers.js";
+import { getPostsByAuthorId, getProfileByUserId, getSubscribedToUser, getUserSubscribedTo } from "../resolvers/resolvers.js";
 
 export const User: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
@@ -31,7 +31,7 @@ export const User: GraphQLObjectType = new GraphQLObjectType({
     },
     subscribedToUser: {
       type: new GraphQLList(User),
-      resolve: async({ id }: { id: string }, args, { prisma }: { prisma: PrismaClient }) => getUserSubscribedTo(id, prisma), 
+      resolve: async({ id }: { id: string }, args, { prisma }: { prisma: PrismaClient }) => getSubscribedToUser(id, prisma), 
     },
   }),
 });
