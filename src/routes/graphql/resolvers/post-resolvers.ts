@@ -13,14 +13,20 @@ export async function getPosts(prisma: PrismaClient) {
   return posts;
 }
 
+export async function getPostsByAuthorId(id: string, prisma: PrismaClient) {
+  const posts = await prisma.post.findMany({ where: { authorId: id } });
+
+  return posts;
+}
+
 export async function createPost(createPostInfo: ICreatePostInput, prisma: PrismaClient) {
   const post = await prisma.post.create({ data: createPostInfo });
 
   return post;
 }
 
-export async function getPostsByAuthorId(id: string, prisma: PrismaClient) {
-  const posts = await prisma.post.findMany({ where: { authorId: id } });
+export async function deletePost(id: string, prisma: PrismaClient) {
+  const deletePost = await prisma.post.delete({ where: { id } });
 
-  return posts;
+  return deletePost.id;
 }
