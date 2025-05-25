@@ -28,6 +28,10 @@ export const User: GraphQLObjectType = new GraphQLObjectType({
     userSubscribedTo: {
       type: new GraphQLList(User),
       resolve: async({ id }: { id: string }, args, { prisma }: { prisma: PrismaClient }) => getUserSubscribedTo(id, prisma), 
-    }
+    },
+    subscribedToUser: {
+      type: new GraphQLList(User),
+      resolve: async({ id }: { id: string }, args, { prisma }: { prisma: PrismaClient }) => getUserSubscribedTo(id, prisma), 
+    },
   }),
 });
