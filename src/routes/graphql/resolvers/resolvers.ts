@@ -72,3 +72,17 @@ export async function getUsers(prisma: PrismaClient) {
 
   return users;
 }
+
+export async function getUserSubscribedTo(id: string, prisma: PrismaClient) {
+  const subs = await prisma.user.findMany({
+    where: {
+      subscribedToUser: {
+        some: {
+          subscriberId: id,
+        },
+      },
+    },
+  });
+
+  return subs;
+}
