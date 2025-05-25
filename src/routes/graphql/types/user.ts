@@ -1,7 +1,11 @@
-import { GraphQLFloat, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLFloat, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
 import { UUIDType } from "./uuid.js";
+import { Profile } from "./profile.js";
+import { PrismaClient } from "@prisma/client";
+import { Post } from "./post.js";
+import { getPostsByAuthorId, getProfileByUserId } from "../resolvers/resolvers.js";
 
-export const User = new GraphQLObjectType({
+export const User: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
   fields: {
     id: {
@@ -13,5 +17,13 @@ export const User = new GraphQLObjectType({
     balance: {
       type: new GraphQLNonNull(GraphQLFloat),
     },
+    profile: {
+      type: Profile,
+      resolve: async({ id }: { id: string }, args, { prisma }: { prisma: PrismaClient }) => getProfileByUserId(id, prisma), 
+    },
+    posts: {
+      type: new GraphQLList(Post),
+      resolve: async({ id }: { id: string }, args,{ prisma }: { prisma: PrismaClient }) => getPostsByAuthorId(id, prisma), 
+    }
   }
 });
