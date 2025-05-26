@@ -1,8 +1,23 @@
-import { GraphQLNonNull, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLNonNull, GraphQLString } from "graphql";
 import { ChangeProfileInput, CreateProfileInput, IProfileInput, Profile } from "../types/profile.js";
 import { PrismaClient } from "@prisma/client";
 import { UUIDType } from "../types/uuid.js";
-import { changeProfile, createProfile, deleteProfile } from "../resolvers/profile-resolvers.js";
+import { changeProfile, createProfile, deleteProfile, getProfile, getProfiles } from "../resolvers/profile-resolvers.js";
+
+export const profileQuery = {
+  profile: {
+    type: Profile,
+    args: {
+      id: { type: new GraphQLNonNull(UUIDType) },
+    },
+    resolve: async(source, { id }: { id: string }, { prisma }: { prisma: PrismaClient }) => getProfile(id, prisma),
+  },
+
+  profiles: {
+    type: new GraphQLList(Profile),
+    resolve: async (source, args, { prisma }: { prisma: PrismaClient }) => getProfiles(prisma),
+  },
+};
 
 export const profileMutations = {
   createProfile: {

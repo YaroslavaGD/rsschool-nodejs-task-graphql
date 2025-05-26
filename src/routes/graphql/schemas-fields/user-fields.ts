@@ -1,8 +1,23 @@
-import { GraphQLNonNull, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLNonNull, GraphQLString } from "graphql";
 import { ChangeUserInput, CreateUserInput, IUserInput, User } from "../types/user.js";
 import { PrismaClient } from "@prisma/client";
 import { UUIDType } from "../types/uuid.js";
-import { changeUser, createUser, deleteUser, subscribeTo, unsubscribeFrom } from "../resolvers/user-resolvers.js";
+import { changeUser, createUser, deleteUser, getUser, getUsers, subscribeTo, unsubscribeFrom } from "../resolvers/user-resolvers.js";
+
+export const userQuery = {
+  user: {
+    type: User,
+    args: {
+      id: { type: new GraphQLNonNull(UUIDType) },
+    },
+    resolve: async(source, { id }: { id: string }, { prisma }: { prisma: PrismaClient }) => getUser(id, prisma),
+  },
+
+  users: {
+    type: new GraphQLList(User),
+    resolve: async (source, args, { prisma }: { prisma: PrismaClient }) => getUsers(prisma),
+  },
+};
 
 export const userMutations = {
   createUser: {

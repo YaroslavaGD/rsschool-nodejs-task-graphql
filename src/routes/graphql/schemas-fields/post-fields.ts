@@ -1,8 +1,23 @@
-import { GraphQLNonNull, GraphQLString } from "graphql";
+import { GraphQLList, GraphQLNonNull, GraphQLString } from "graphql";
 import { ChangePostInput, CreatePostInput, IPostInput, Post } from "../types/post.js";
 import { PrismaClient } from "@prisma/client";
 import { UUIDType } from "../types/uuid.js";
-import { changePost, createPost, deletePost } from "../resolvers/post-resolvers.js";
+import { changePost, createPost, deletePost, getPost, getPosts } from "../resolvers/post-resolvers.js";
+
+export const postQuery = {
+  post: {
+    type: Post,
+    args: {
+      id: { type: new GraphQLNonNull(UUIDType) },
+    },
+    resolve: async(source, { id }: { id: string }, { prisma }: { prisma: PrismaClient }) => getPost(id, prisma),
+  },
+
+  posts: {
+    type: new GraphQLList(Post),
+    resolve: async (source, args, { prisma }: { prisma: PrismaClient }) => getPosts(prisma),
+  },
+};
 
 export const postMutations = {
   createPost: {
