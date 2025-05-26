@@ -1,7 +1,7 @@
 import { GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
-import { CreatePostInput, ICreatePostInput, Post } from "../types/post.js";
+import { CreatePostInput, IPostInput, Post } from "../types/post.js";
 import { PrismaClient } from "@prisma/client";
-import { createPost, deletePost } from "../resolvers/post-resolvers.js";
+import { changePost, createPost, deletePost } from "../resolvers/post-resolvers.js";
 import { UUIDType } from "../types/uuid.js";
 
 export const mutation = new GraphQLObjectType({
@@ -10,7 +10,12 @@ export const mutation = new GraphQLObjectType({
     createPost: {
       type: Post,
       args: { dto: { type: new GraphQLNonNull(CreatePostInput) } },
-      resolve: async (source, { dto } : { dto: ICreatePostInput}, { prisma } : { prisma: PrismaClient }) => createPost(dto, prisma)
+      resolve: async (source, { dto } : { dto: IPostInput}, { prisma } : { prisma: PrismaClient }) => createPost(dto, prisma)
+    },
+    changePost: {
+      type: Post,
+      args: { id: { type: new GraphQLNonNull(UUIDType) }, dto: { type: new GraphQLNonNull(CreatePostInput) } },
+      resolve: async (source, { id, dto } : { id: string, dto: IPostInput}, { prisma } : { prisma: PrismaClient }) => changePost(id, dto, prisma)
     },
     deletePost: {
       type: GraphQLString,

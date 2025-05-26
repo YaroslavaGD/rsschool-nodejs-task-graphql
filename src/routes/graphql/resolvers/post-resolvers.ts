@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ICreatePostInput } from "../types/post.js";
+import { IPostInput } from "../types/post.js";
 
 export async function getPost(id: string, prisma: PrismaClient) {
   const post = await prisma.post.findUnique({ where: { id } });
@@ -19,10 +19,19 @@ export async function getPostsByAuthorId(id: string, prisma: PrismaClient) {
   return posts;
 }
 
-export async function createPost(createPostInfo: ICreatePostInput, prisma: PrismaClient) {
+export async function createPost(createPostInfo: IPostInput, prisma: PrismaClient) {
   const post = await prisma.post.create({ data: createPostInfo });
 
   return post;
+}
+
+export async function changePost(id: string, changePostInfo: IPostInput, prisma: PrismaClient) {
+  const updatedPost = await prisma.post.update({
+    where: { id },
+    data: changePostInfo,
+  });
+
+  return updatedPost;
 }
 
 export async function deletePost(id: string, prisma: PrismaClient) {

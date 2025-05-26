@@ -1,7 +1,7 @@
 import { GraphQLInputObjectType, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
 import { UUIDType } from "./uuid.js";
 
-export interface ICreatePostInput {
+export interface IPostInput {
   title: string;
   content: string;
   authorId: string;
