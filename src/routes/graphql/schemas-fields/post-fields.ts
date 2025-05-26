@@ -23,16 +23,16 @@ export const postMutations = {
   createPost: {
     type: Post,
     args: { dto: { type: new GraphQLNonNull(CreatePostInput) } },
-    resolve: async (source, { dto } : { dto : IPostInput}, { prisma } : { prisma: PrismaClient }) => createPost(dto, prisma)
+    resolve: async (_, { dto } : { dto : IPostInput }, { prisma } : { prisma: PrismaClient }) => createPost(dto, prisma)
   },
   changePost: {
     type: Post,
     args: { id: { type: new GraphQLNonNull(UUIDType) }, dto: { type: new GraphQLNonNull(ChangePostInput) } },
-    resolve: async (source, { id, dto } : {id: string, dto: IPostInput, }, { prisma } : { prisma: PrismaClient }) => changePost(id, dto, prisma)
+    resolve: async (_, { id, dto } : { id: string, dto: IPostInput }, { prisma } : { prisma: PrismaClient }) => changePost(id, dto, prisma)
   },
   deletePost: {
     type: GraphQLString,
     args: { id: { type: new GraphQLNonNull(UUIDType) } },
-    resolve: async (source, { id } : { id: string}, { prisma } : { prisma: PrismaClient }) => deletePost(id, prisma)
+    resolve: async (_, { id } : { id: string }, { prisma } : { prisma: PrismaClient }) => deletePost(id, prisma)
   },
 };

@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { MemberTypeEnum } from "../types/member-type.js";
 
 export async function getMember(id: MemberTypeEnum, prisma: PrismaClient) {
-  const memberType = await prisma.memberType.findUnique({ where: {id} });
+  const memberType = await prisma.memberType.findUnique({ where: { id } });
 
   return memberType;
 }

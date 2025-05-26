@@ -9,11 +9,11 @@ export const memberQuery = {
     args: {
       id: { type: new GraphQLNonNull(MemberTypeId) },
     },
-    resolve: async(source, { id }: { id: MemberTypeEnum }, { prisma }: { prisma: PrismaClient }) => getMember(id, prisma),
+    resolve: async(_, { id } : { id: MemberTypeEnum }, { prisma } : { prisma: PrismaClient }) => getMember(id, prisma),
   },
 
   memberTypes: {
     type: new GraphQLList(MemberType),
-    resolve: async (source, args, { prisma }: { prisma: PrismaClient }) => getMembers(prisma),
+    resolve: async (_, args, { prisma } : { prisma: PrismaClient }) => getMembers(prisma),
   },
 }
