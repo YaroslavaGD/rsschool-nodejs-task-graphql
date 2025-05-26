@@ -35,7 +35,7 @@ export async function changePost(id: string, changePostInfo: IPostInput, prisma:
 }
 
 export async function deletePost(id: string, prisma: PrismaClient) {
-  const deletePost = await prisma.post.delete({ where: { id } });
+  const deletedPost = await prisma.post.delete({ where: { id } });
 
-  return deletePost.id;
+  return deletedPost.id;
 }
